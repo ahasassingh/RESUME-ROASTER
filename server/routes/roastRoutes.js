@@ -12,13 +12,16 @@ const os = require('os');
 const upload = multer({
     dest: os.tmpdir(),
     fileFilter: (req, file, cb) => {
-        if (file.mimetype === 'application/pdf') {
+        // Allow PDF or generic binary (common on mobile) if extension is pdf
+        if (file.mimetype === 'application/pdf' ||
+            (file.mimetype === 'application/octet-stream' && file.originalname.toLowerCase().endsWith('.pdf'))) {
             cb(null, true);
         } else {
-            cb(new Error('Only PDFs are allowed!'), false);
+            console.warn(`❌ Rejected file: ${file.originalname} (${file.mimetype})`);
+            cb(new Error(`Only PDFs are allowed! (Received: ${file.mimetype})`), false);
         }
     },
-    limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
+    limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit (Phones take large scans)
 });
 
 const { validate } = require('../middleware/inputValidator');
