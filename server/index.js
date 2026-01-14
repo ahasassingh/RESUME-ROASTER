@@ -14,6 +14,9 @@ const PORT = process.env.PORT || 5000;
 const helmet = require('helmet');
 const { globalLimiter } = require('./middleware/rateLimiter');
 
+// Trust Proxy (Required for Render/Vercel/Heroku)
+app.set('trust proxy', 1);
+
 // Middleware
 app.use(helmet()); // Secure Headers
 app.use(globalLimiter); // Global Rate Limit
