@@ -8,7 +8,14 @@ let serviceAccount;
 
 try {
     // Try to load from a file if it exists
-    serviceAccount = require('./serviceAccountKey.json');
+    // Priority 1: Render Secret Path
+    if (require('fs').existsSync('/etc/secrets/serviceAccountKey.json')) {
+        serviceAccount = require('/etc/secrets/serviceAccountKey.json');
+    }
+    // Priority 2: Local Development Path
+    else {
+        serviceAccount = require('./serviceAccountKey.json');
+    }
 } catch (e) {
     // If file doesn't exist, check individual env vars (useful for production/railway/render)
     if (process.env.FIREBASE_PRIVATE_KEY) {
