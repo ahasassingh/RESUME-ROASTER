@@ -1,0 +1,195 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --neon-pink: #ff00ff;
+  --neon-cyan: #00ffff;
+  --bg-color: #050510;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: #e0e0e0;
+  font-family: 'Courier New', Courier, monospace;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border: 1px solid var(--neon-cyan);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--neon-cyan);
+}
+
+@layer components {
+
+  /* CRT Scanline Overlay */
+  /* CRT Scanline Overlay - DISABLED per user request */
+  /* .crt::before { ... } */
+  /* .crt::after { ... } */
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 0.02;
+  }
+
+  5% {
+    opacity: 0.05;
+  }
+
+  10% {
+    opacity: 0.02;
+  }
+
+  15% {
+    opacity: 0.06;
+  }
+
+  20% {
+    opacity: 0.02;
+  }
+
+  25% {
+    opacity: 0.02;
+  }
+
+  30% {
+    opacity: 0.02;
+  }
+
+  35% {
+    opacity: 0.01;
+  }
+
+  40% {
+    opacity: 0.02;
+  }
+
+  45% {
+    opacity: 0.05;
+  }
+
+  50% {
+    opacity: 0.02;
+  }
+
+  55% {
+    opacity: 0.05;
+  }
+
+  60% {
+    opacity: 0.02;
+  }
+
+  65% {
+    opacity: 0.02;
+  }
+
+  70% {
+    opacity: 0.05;
+  }
+
+  75% {
+    opacity: 0.02;
+  }
+
+  80% {
+    opacity: 0.02;
+  }
+
+  85% {
+    opacity: 0.02;
+  }
+
+  90% {
+    opacity: 0.05;
+  }
+
+  95% {
+    opacity: 0.02;
+  }
+
+  100% {
+    opacity: 0.02;
+  }
+}
+
+@layer utilities {
+  .text-glow {
+    text-shadow: 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-cyan);
+  }
+
+
+}
+
+
+@media print {
+  body {
+    background-color: white !important;
+    color: black !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Hide everything by default */
+  body>* {
+    display: none !important;
+  }
+
+  /* Only show the App root but hide its transform/animations if any cause issues */
+  #root {
+    display: block !important;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Hide all UI elements */
+  .no-print,
+  header,
+  footer,
+  button,
+  nav,
+  .CRT-overlay,
+  .crt::before,
+  .crt::after {
+    display: none !important;
+  }
+
+  /* Specifically target the print container inside GodModeResults */
+  .print-container {
+    display: block !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 2cm !important;
+    /* Standard print margin */
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    visibility: visible !important;
+    z-index: 9999;
+  }
+
+  /* Ensure text is readable */
+  .prose {
+    color: black !important;
+    max-width: none !important;
+  }
+}
