@@ -7,9 +7,10 @@ const { db } = require('../config/firebase');
 const { logActivity } = require('../utils/logger');
 const path = require('path');
 
+const os = require('os');
 // Configure Multer for PDF upload
 const upload = multer({
-    dest: 'uploads/',
+    dest: os.tmpdir(),
     fileFilter: (req, file, cb) => {
         if (file.mimetype === 'application/pdf') {
             cb(null, true);
