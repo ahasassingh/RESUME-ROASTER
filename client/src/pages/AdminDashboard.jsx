@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+// eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
-import { Shield, Users, DollarSign, Activity, AlertTriangle } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { Shield, Users, DollarSign, Activity } from 'lucide-react';
 import ActivityLog from '../components/ActivityLog';
 import PricingControl from '../components/Admin/PricingControl';
 import { API_BASE_URL } from '../config';
@@ -10,14 +10,12 @@ import { API_BASE_URL } from '../config';
 const ADMIN_EMAIL = 'singhahasas94@gmail.com'; // TODO: Change to real email
 
 const AdminDashboard = ({ user }) => {
-    const navigate = useNavigate();
     const [stats, setStats] = useState(null);
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false); // Changed to false initially
     const [error, setError] = useState(null);
     const [actionLoading, setActionLoading] = useState(null); // Track which user is being updated
 
-    // Access Authentication Logic
     useEffect(() => {
         if (!user) return;
 
@@ -25,6 +23,24 @@ const AdminDashboard = ({ user }) => {
             setError('ACCESS DENIED: Insufficient Clearance Level');
             return;
         }
+
+        const fetchAdminData = async () => {
+            try {
+                setLoading(true);
+                const res = await axios.get(`${API_BASE_URL}/api/admin/stats`, {
+                    headers: { 'x-admin-email': user.email },
+                    withCredentials: true
+                });
+                setStats(res.data.stats);
+                setUsers(res.data.users);
+                setError(null);
+            } catch (err) {
+                console.error(err);
+                setError('Connection Terminated: verification failed.');
+            } finally {
+                setLoading(false);
+            }
+        };
 
         fetchAdminData();
     }, [user]);
@@ -56,23 +72,7 @@ const AdminDashboard = ({ user }) => {
         );
     }
 
-    const fetchAdminData = async () => {
-        try {
-            setLoading(true);
-            const res = await axios.get(`${API_BASE_URL}/api/admin/stats`, {
-                headers: { 'x-admin-email': user.email },
-                withCredentials: true
-            });
-            setStats(res.data.stats);
-            setUsers(res.data.users);
-            setError(null);
-        } catch (err) {
-            console.error(err);
-            setError('Connection Terminated: verification failed.');
-        } finally {
-            setLoading(false);
-        }
-    };
+
 
     // Generic Action Handler (Premium or Ban)
     const handleUserAction = async (targetEmail, action, currentStatus) => {

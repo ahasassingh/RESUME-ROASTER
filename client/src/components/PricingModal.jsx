@@ -1,13 +1,10 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { motion, AnimatePresence } from 'framer-motion';
 import { API_BASE_URL } from '../config';
 
 const PricingModal = ({ isOpen, onClose, theme = 'cyberpunk' }) => {
     const [prices, setPrices] = useState({ day_pass_price: 99, lifetime_pass_price: 999 });
-
-    useEffect(() => {
-        if (isOpen) {
-            fetchPrices();
-        }
-    }, [isOpen]);
 
     const fetchPrices = async () => {
         try {
@@ -23,6 +20,12 @@ const PricingModal = ({ isOpen, onClose, theme = 'cyberpunk' }) => {
             console.error('Failed to fetch pricing:', error);
         }
     };
+
+    useEffect(() => {
+        if (isOpen) {
+            fetchPrices();
+        }
+    }, [isOpen]);
 
     if (!isOpen) return null;
     const isPro = theme === 'professional';

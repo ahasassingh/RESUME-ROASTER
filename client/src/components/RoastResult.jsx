@@ -1,4 +1,5 @@
 import React from 'react';
+// eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
 import GodModeResults from './GodModeResults';
 import CheckoutButton from './CheckoutButton';
@@ -6,7 +7,7 @@ import CheckoutButton from './CheckoutButton';
 const RoastResult = ({ data, isPremium, onUnlock, theme }) => {
     if (!data) return null;
 
-    const { score, roast_headline, glitches, fix_it, ats_gap_analysis, decringe_rewriter, constructive_feedback, premium_teaser } = data;
+    const { score, roast_headline, glitches, fix_it, premium_teaser } = data;
 
     // Color coding
     const getScoreColor = (s) => {
